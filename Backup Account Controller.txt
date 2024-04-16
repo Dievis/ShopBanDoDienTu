@@ -1,0 +1,248 @@
+public ActionResult ResetPassword()
+{
+    return View();
+}
+
+[HttpPost]
+[ValidateAntiForgeryToken]
+public ActionResult ResetPassword(string emailAddress)
+{
+    if (string.IsNullOrWhiteSpace(emailAddress))
+    {
+        ViewBag.ErrorMessage = "Vui lòng cung cấp địa chỉ email.";
+        return View();
+    }
+
+    if (!IsEmailExists(emailAddress))
+    {
+        ViewBag.ErrorMessage = "Email không tồn tại trong cơ sở dữ liệu.";
+        return View();
+    }
+
+    try
+    {
+        // Tạo mã token để đặt lại mật khẩu và lưu vào cơ sở dữ liệu
+        var token = Guid.NewGuid().ToString();
+        var AppDBContext = new AppDBContext();
+        var UserStore = new AppUserStore(AppDBContext);
+        var UserManager = new AppUserManager(UserStore);
+        var user = UserManager.FindByEmail(emailAddress);
+
+        if (user == null)
+        {
+            ViewBag.ErrorMessage = "Email không tồn tại trong cơ sở dữ liệu.";
+            return View();
+        }
+
+        // Gán token cho người dùng
+        user.ResetPasswordToken = token;
+        user.ResetPasswordTokenExpiration = DateTime.Now.AddHours(1); // Thời gian hết hạn của token (ở đây là 1 giờ, bạn có thể điều chỉnh)
+
+        // Lưu thay đổi vào cơ sở dữ liệu
+        UserManager.Update(user);
+
+        // Gửi email chứa liên kết đến trang đặt lại mật khẩu
+        var fromAddress = new MailAddress("superchip3010@gmail.com");
+        const string fromPassword = "nhzf ycrh hfcc xnmf";
+        var toAddress = new MailAddress(emailAddress);
+        var smtp = new SmtpClient
+        {
+            Host = "smtp.gmail.com",
+            Port = 587,
+            EnableSsl = true,
+            DeliveryMethod = SmtpDeliveryMethod.Network,
+            UseDefaultCredentials = false,
+            Credentials = new NetworkCredential(fromAddress.Address, fromPassword),
+            Timeout = 20000
+        };
+        const string subject = "Reset Password Link";
+        string resetPasswordLink = Url.Action("ResetPasswordConfirmation", "Account", new { emailAddress = emailAddress, token = token }, Request.Url.Scheme);
+        string body = "<p>Bạn đã yêu cầu đặt lại mật khẩu của mình.</p>";
+        body += $"<p>Vui lòng nhấp vào liên kết sau để đặt lại mật khẩu:</p>";
+        body += $"<a href='{resetPasswordLink}'>Đặt lại mật khẩu</a>";
+
+        // Tạo đối tượng MailMessage với thông tin từ, tới, tiêu đề và nội dung của email
+        using (var message = new MailMessage(fromAddress, toAddress)
+        {
+            Body = body,
+            Subject = subject,
+            IsBodyHtml = true
+        })
+        {
+            smtp.Send(message);
+        }
+
+        ViewBag.SuccessMessage = "Một đường liên kết đã được gửi đến email của bạn.";
+        return RedirectToAction("Login", "Account");
+    }
+    catch (Exception ex)
+    {
+        // Gửi thông báo lỗi nếu có lỗi xảy ra
+        ViewBag.ErrorMessage = "Có lỗi xảy ra khi gửi email đặt lại mật khẩu. Vui lòng thử lại sau.";
+        return View();
+    }
+}
+
+
+public ActionResult ResetPasswordConfirmation(string emailAddress)
+{
+    if (string.IsNullOrWhiteSpace(emailAddress))
+    {
+        ViewBag.ErrorMessage = "Vui lòng cung cấp địa chỉ email.";
+        return View("Error");
+    }
+
+    // Kiểm tra xem email có tồn tại trong cơ sở dữ liệu không
+    var AppDBContext = new AppDBContext();
+    var UserStore = new AppUserStore(AppDBContext);
+    var UserManager = new AppUserManager(UserStore);
+    var user = UserManager.FindByEmail(emailAddress);
+
+    if (user == null)
+    {
+        ViewBag.ErrorMessage = "Email không tồn tại trong cơ sở dữ liệu.";
+        return View("Error");
+    }
+
+    // Nếu email hợp lệ, hiển thị view để người dùng đặt lại mật khẩu mới
+    var rvm = new ResetPasswordVM
+    {
+        Email = emailAddress // Truyền email vào view để hiển thị
+    };
+    return View(rvm);
+}
+
+[HttpPost]
+[ValidateAntiForgeryToken]
+public ActionResult ResetPasswordConfirmation(ResetPasswordVM rvm)
+{
+    if (!ModelState.IsValid)
+    {
+        return View(rvm);
+    }
+
+    // Kiểm tra xem email có tồn tại trong cơ sở dữ liệu không
+    var AppDBContext = new AppDBContext();
+    var UserStore = new AppUserStore(AppDBContext);
+    var UserManager = new AppUserManager(UserStore);
+    var user = UserManager.FindByEmail(rvm.Email);
+
+    if (user == null)
+    {
+        ViewBag.ErrorMessage = "Email không tồn tại trong cơ sở dữ liệu.";
+        return View("Error");
+    }
+
+    // Đặt lại mật khẩu mới cho người dùng
+    var newPasswordHash = UserManager.PasswordHasher.HashPassword(rvm.NewPassword);
+    user.PasswordHash = newPasswordHash;
+    user.ResetPasswordToken = null;
+    user.ResetPasswordTokenExpiration = null;
+
+    var result = UserManager.Update(user);
+
+    if (result.Succeeded)
+    {
+        // Đăng xuất người dùng để họ phải đăng nhập lại với mật khẩu mới
+        var authenManager = HttpContext.GetOwinContext().Authentication;
+        authenManager.SignOut();
+
+        // Redirect đến trang đăng nhập với thông báo thành công
+        TempData["SuccessMessage"] = "Đổi mật khẩu thành công. Vui lòng đăng nhập lại.";
+        return RedirectToAction("Login", "Account");
+    }
+    else
+    {
+        // Nếu có lỗi xảy ra trong quá trình đặt lại mật khẩu
+        ViewBag.ErrorMessage = "Có một lỗi phát sinh khi đổi mật khẩu. Vui lòng thử lại sau.";
+        return View("Error");
+    }
+}
+
+
+
+
+
+--------------------------------------VIEW-----------------------------------
+@model ShopBanDoDienTu_Nhom1.ViewModel.ResetPasswordVM
+@{
+    ViewBag.Title = "ResetPassword";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Reset Password</h2>
+
+@using (Html.BeginForm("ResetPassword", "Account", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.Email) <!-- Thêm trường ẩn để lưu giá trị email -->
+
+    <div class="form-group">
+        <div class="mb-3">
+            <label for="exampleInputEmail1" class="form-label">Email address</label>
+            <input type="email" name="emailAddress" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Gửi" class="btn btn-warning" />
+        </div>
+    </div>
+}
+
+<div class="text-danger">
+    @ViewBag.ErrorMessage
+</div>
+
+
+
+@model ShopBanDoDienTu_Nhom1.ViewModel.ResetPasswordVM
+
+@{
+    ViewBag.Title = "Reset Password Confirmation";
+}
+
+<h2>Reset Password Confirmation</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Đặt lại mật khẩu cho tài khoản: @Model.Email</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NewPassword, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.PasswordFor(model => model.NewPassword, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.NewPassword, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.PasswordFor(model => model.ConfirmPassword, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Đặt lại mật khẩu" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Quay lại trang đăng nhập", "Login", "Account")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
