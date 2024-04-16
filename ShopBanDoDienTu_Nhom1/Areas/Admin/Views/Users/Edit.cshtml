@@ -1,0 +1,46 @@
+﻿@model ShopBanDoDienTu_Nhom1.ViewModel.EditUserViewModel
+
+@{
+    ViewBag.Title = "Chỉnh sửa tài khoản";
+}
+
+<h2>Chỉnh sửa tài khoản</h2>
+
+@using (Html.BeginForm("Edit", "Users", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Thông tin tài khoản</h4>
+        <hr />
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.Email)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.NewRole, "Vai trò", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.NewRole, Model.AllRoles, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.NewRole, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Lưu" class="btn btn-primary" />
+                @Html.ActionLink("Quay lại", "Index", "Users", new { area = "Admin" }, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

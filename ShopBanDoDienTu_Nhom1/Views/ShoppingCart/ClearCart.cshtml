@@ -1,0 +1,15 @@
+﻿
+@{
+    ViewBag.Title = "ClearCart";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Xóa giỏ hàng</h2>
+
+<p>Bạn có chắc chắn muốn xóa toàn bộ giỏ hàng?</p>
+
+@using (Html.BeginForm("ClearCart", "ShoppingCart", FormMethod.Post))
+{
+    <input type="submit" value="Xác nhận" class="btn btn-danger" />
+}
+

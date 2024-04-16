@@ -1,0 +1,44 @@
+﻿@model List<ShopBanDoDienTu_Nhom1.Models.Product>
+
+@{
+    ViewBag.Title = "Kết quả tìm kiếm";
+}
+
+<h2>Kết quả tìm kiếm</h2>
+
+@if (Model.Count == 0)
+{
+    <p>@ViewBag.Message</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Tên mặt hàng</th>
+                <th>Giá</th>
+                <th>Ngày nhập</th>
+                <th>Tình trạng sẵn có</th>
+                <th>Loại mặt hàng</th>
+                <th>Thương hiệu</th>
+                <th>Hoạt động</th>
+                <th>Ảnh mặt hàng</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                <tr>
+                    <td>@product.ProductName</td>
+                    <td>@product.Price</td>
+                    <td>@(product.DateOfPurchase.HasValue ? product.DateOfPurchase.Value.ToString("dd/MM/yyyy") : "")</td>
+                    <td>@product.AvailabilityStatus</td>
+                    <td>@(product.Category != null ? product.Category.CategoryName : "")</td>
+                    <td>@(product.Brand != null ? product.Brand.BrandName : "")</td>
+                    <td>@(product.Active.HasValue ? (product.Active.Value ? "Yes" : "No") : "")</td>
+                    <td><img src="@product.Img" alt="@product.ProductName" style="max-width: 100px; max-height: 100px;" /></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

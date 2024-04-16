@@ -1,0 +1,448 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    margin-top: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    resize: none;
+    max-width: 280px;
+}
+
+.navbar-brand {
+    padding-top: var(--bs-navbar-brand-padding-y);
+    padding-bottom: var(--bs-navbar-brand-padding-y);
+    margin-right: var(--bs-navbar-brand-margin-end);
+    font-size: var(--bs-navbar-brand-font-size);
+    font-family: "Lobster", cursive;
+    color: whitesmoke;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.nav-item a {
+    font-size: 20px; /* Kích thước chữ */
+    color: whitesmoke; /* Màu chữ  */
+    font-family: "Lobster", cursive;
+}
+
+.nav-link.active {
+    color: red; /* Màu chữ khi mục menu được chọn (active) */
+}
+
+.nav-link:hover {
+    color: rgb(255, 0, 0); /* Màu chữ khi di chuột vào mục menu */
+}
+
+.nav-link[aria-disabled="true"] {
+    color: gray; /* Màu chữ khi mục menu bị vô hiệu hóa */
+}
+
+.form-control {
+    width: 300px; /* Độ rộng của khung tìm kiếm */
+    border-radius: 20px; /* Góc bo cho khung tìm kiếm */
+    padding: 10px; /* Khoảng cách nội dung và biên của khung tìm kiếm */
+}
+
+.btn {
+    border-radius: 5px;
+}
+
+
+.btn-warning {
+    --bs-btn-color: white;
+    --bs-btn-bg: #ffc107;
+    --bs-btn-border-color: #ffc107;
+    --bs-btn-hover-color: whitesmoke;
+    --bs-btn-hover-bg: #ffca2c;
+    --bs-btn-hover-border-color: #ffc720;
+    --bs-btn-focus-shadow-rgb: 217, 164, 6;
+    --bs-btn-active-color: whitesmoke;
+    --bs-btn-active-bg: #ffcd39;
+    --bs-btn-active-border-color: #ffc720;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: whitesmoke;
+    --bs-btn-disabled-bg: #ffc107;
+    --bs-btn-disabled-border-color: #ffc107;
+    font-family: "Lobster", cursive;
+}
+
+.btn-danger {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #dc3545;
+    --bs-btn-border-color: #dc3545;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #bb2d3b;
+    --bs-btn-hover-border-color: #b02a37;
+    --bs-btn-focus-shadow-rgb: 225, 83, 97;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #b02a37;
+    --bs-btn-active-border-color: #a52834;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #dc3545;
+    --bs-btn-disabled-border-color: #dc3545;
+    font-family: "Lobster", cursive;
+}
+
+.btn-success {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #198754;
+    --bs-btn-border-color: #198754;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #157347;
+    --bs-btn-hover-border-color: #146c43;
+    --bs-btn-focus-shadow-rgb: 60, 153, 110;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #146c43;
+    --bs-btn-active-border-color: #13653f;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #198754;
+    --bs-btn-disabled-border-color: #198754;
+    font-family: "Lobster", cursive;
+}
+
+.btn-info {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #0dcaf0;
+    --bs-btn-border-color: #0dcaf0;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #31d2f2;
+    --bs-btn-hover-border-color: #25cff2;
+    --bs-btn-focus-shadow-rgb: 11, 172, 204;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #3dd5f3;
+    --bs-btn-active-border-color: #25cff2;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #0dcaf0;
+    --bs-btn-disabled-border-color: #0dcaf0;
+    font-family: "Lobster", cursive;
+}
+
+.btn-primary {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #0d6efd;
+    --bs-btn-border-color: #0d6efd;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #0b5ed7;
+    --bs-btn-hover-border-color: #0a58ca;
+    --bs-btn-focus-shadow-rgb: 49, 132, 253;
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #0a58ca;
+    --bs-btn-active-border-color: #0a53be;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #0d6efd;
+    --bs-btn-disabled-border-color: #0d6efd;
+    font-family: "Lobster", cursive;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-family: "Lobster", cursive;
+}
+
+a {
+    color: rgba(var(--bs-link-color-rgb), var(--bs-link-opacity, 1));
+    text-decoration: none;
+    font-family: "Lobster", cursive;
+}
+
+footer p {
+    background: rgba(255, 255, 255, 0.2);
+    color: red;
+    font-size: 30px;
+    font-family: "Lobster", cursive;
+    border-radius: 5px;
+}
+
+.home-body{
+    background: url(Images/BG6.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.black-fill {
+    background: rgba(0, 0, 0, 0.7);
+    min-height: 100vh;
+}
+
+.welcome-text {
+    min-height: 100vh;
+}
+
+.welcome-text img {
+    width: 500px;
+}
+
+.welcome-text h4 {
+    color: red;
+    font-size: 51px;
+    font-family: "Lobster", cursive;
+}
+
+.welcome-text p {
+    color: whitesmoke;
+    font-size: 25px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.navbar-expand-sm {
+    background: rgb(63, 2, 2) !important;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+}
+
+#about {
+    min-height: 100vh;
+}
+
+#about .mb-3 {
+    max-width: 600px;
+    width: 90%;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#about .card-title {
+    color: red;
+    font-size: 38px;
+    font-family: "Lobster", cursive;
+
+}
+
+#about .card-text {
+    color: whitesmoke;
+}
+
+#about .text-body-secondary {
+    font-size: 28px;
+    font-family: "Lobster", cursive;
+}
+
+#contact {
+    min-height: 60vh;
+}
+
+#contact form{
+    max-width: 370px;
+    width: 90%;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#contact form h3 {
+    text-align: center;
+    color: red;
+    font-size: 35px;
+    font-family: "Lobster", cursive;
+}
+
+#contact form label {
+    text-align: center;
+    font-family: "Lobster", cursive;
+    color: red;
+}
+
+#contact .form-text {
+    margin-top: .25rem;
+    font-size: .875em;
+    color: darkred;
+    font-family: "Lobster", cursive;
+}
+
+
+#login {
+    max-width: 370px;
+    width: 90%;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+#login-footer {
+    color: darkred;
+    font-size: 28px;
+    font-family: "Lobster", cursive;
+}
+
+.custom-label {
+    display: block;
+    text-align: right; /* Điều chỉnh vị trí của label */
+}
+
+#back-btn {
+    font-size: 18px;
+}
+
+.table {
+    width: 100%; /* Đảm bảo bảng chiếm toàn bộ chiều rộng của phần tử cha */
+    border-collapse: collapse; /* Gộp các đường viền của ô bảng */
+}
+
+.table th, .table td {
+    padding: 8px; /* Khoảng cách giữa nội dung và đường viền của ô bảng */
+    text-align: left; /* Căn lề nội dung về bên trái */
+    border: 1px solid #ddd; /* Định dạng đường viền của ô bảng */
+    font-family: "Lobster", cursive;
+
+}
+
+.table th {
+    background-color: darkred; /* Màu nền của ô tiêu đề */
+    font-weight: bold; /* Độ đậm của chữ trong ô tiêu đề */
+    font-family: "Lobster", cursive;
+
+}
+
+h1 {
+    color: red;
+    font-family: "Lobster", cursive;
+    font-size: 2.5rem;
+}
+
+h2, h3, h4 {
+    color: darkred;
+    font-family: "Lobster", cursive;
+}
+
+label {
+    color: whitesmoke;
+    font-family: "Lobster", cursive;
+    display: inline-block;
+}
+
+.form-control {
+    width: 200px;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.ml-3-custom {
+    margin-left: 15px; /* Điều chỉnh giá trị theo mong muốn */
+}
+
+.quantity-btn {
+    max-width: 45px
+}
+
+.bold-hr {
+    border-top: 3px solid #000; /* Độ dày và màu sắc của đường kẻ */
+}
+
+.active > .page-link, .page-link.active {
+    z-index: 3;
+    color: var(--bs-pagination-active-color);
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.pagination {
+    --bs-pagination-padding-x: 0.75rem;
+    --bs-pagination-padding-y: 0.375rem;
+    --bs-pagination-font-size: 1rem;
+    --bs-pagination-color: #ffc107;
+    --bs-pagination-bg: var(--bs-body-bg);
+    --bs-pagination-border-width: var(--bs-border-width);
+    --bs-pagination-border-color: var(--bs-border-color);
+    --bs-pagination-border-radius: var(--bs-border-radius);
+    --bs-pagination-hover-color: #ffc107;
+    --bs-pagination-hover-bg: var(--bs-tertiary-bg);
+    --bs-pagination-hover-border-color: var(--bs-border-color);
+    --bs-pagination-focus-color: #ffc107;
+    --bs-pagination-focus-bg: var(--bs-secondary-bg);
+    --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    --bs-pagination-active-color: #fff;
+    --bs-pagination-active-bg: #ffc107;
+    --bs-pagination-active-border-color: #ffc107;
+    --bs-pagination-disabled-color: var(--bs-secondary-color);
+    --bs-pagination-disabled-bg: var(--bs-secondary-bg);
+    --bs-pagination-disabled-border-color: var(--bs-border-color);
+    display: flex;
+    padding-left: 0;
+    list-style: none;
+}
+
+ul {
+    font-family: "Lobster", cursive;
+}
+
+.socials-share {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+    .socials-share a {
+        padding: 4px 30px;
+        color: #fff;
+        line-height: 2em;
+        text-decoration: none;
+        border-radius: 2px;
+        white-space: nowrap;
+        display: inline-block;
+        margin-bottom: 4px;
+    }
+
+    .socials-share span.fa {
+        margin-right: 3px;
+    }
+
+.bg-facebook {
+    background: #3a5899;
+}
+
+    .bg-facebook:hover, .bg-facebook:focus {
+        background: #1d418d;
+    }
+
+.bg-twitter {
+    background: #2a99ed;
+}
+
+    .bg-twitter:hover, .bg-twitter:focus {
+        background: #268ad5;
+    }
+
+.bg-google-plus {
+    background: #db4437;
+}
+
+    .bg-google-plus:hover, .bg-google-plus:focus {
+        background: #bb2a1d;
+    }
+
+.bg-pinterest {
+    background: #cb1e26;
+}
+
+    .bg-pinterest:hover, .bg-pinterest:focus {
+        background: #ae0e15;
+    }
+
+.bg-email {
+    background: #dd5348;
+}
+
+    .bg-email:hover, .bg-email:focus {
+        background: #ce3f34;
+    }

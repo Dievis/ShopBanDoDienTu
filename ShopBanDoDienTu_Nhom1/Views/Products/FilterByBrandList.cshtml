@@ -1,0 +1,14 @@
+﻿@model List<ShopBanDoDienTu_Nhom1.Models.Brand>
+@{
+    ViewBag.Title = "FilterByBrandList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Filter by Brand</h2>
+
+<div class="btn-group">
+    @foreach (var brand in Model)
+    {
+        <button type="button" class="btn btn-outline-warning" style="margin-right: 10px; margin-bottom: 10px" onclick="location.href='@Url.Action("FilterByBrand", "Products", new { brandId = brand.BrandId })'">@brand.BrandName</button>
+    }
+</div>

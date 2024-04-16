@@ -1,0 +1,59 @@
+﻿@model ShopBanDoDienTu_Nhom1.ViewModel.LoginVM
+
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="text-center">Đăng nhập - Shop Nhóm 1</h2>
+
+<div class="card mx-auto" style="max-width: 400px; background: rgb(0, 0, 0, 0.5)">
+    <div class="card-body">
+        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { @class = "form" }))
+        {
+            <!-- Thêm input ẩn để lưu response từ reCAPTCHA -->
+            <input type="hidden" id="captcha" name="captcha" />
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Username)
+                @Html.TextBoxFor(model => model.Username, new { placeholder = "Username", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Password)
+                @Html.PasswordFor(model => model.Password, new { placeholder = "Password", @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group">
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+            </div>
+            <div id="recaptcha"></div>
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-warning mt-3">Đăng nhập</button>
+            </div>
+
+            <div>
+                <a href="/login.external?provider=Facebook">Facebook</a>
+            </div>
+        }
+    </div>
+</div>
+
+<div class="text-center mt-3">
+    <a href="@Url.Action("ResetPassword", "Account")" class="btn btn-outline-light">Quên mật khẩu</a>
+</div>
+
+<script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+
+<script>
+    var onloadCallback = function () {
+        grecaptcha.render('recaptcha', {
+            'sitekey': '6LeJXrwpAAAAAMOj2zy3OoCW4_y6Oi2hkd30paO5',
+            'callback': function (response) {
+                console.log(response);
+                // Gán giá trị response vào input ẩn
+                $('#captcha').val(response);
+            }
+        });
+    };
+</script>

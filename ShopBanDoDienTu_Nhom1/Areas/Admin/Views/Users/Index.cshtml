@@ -1,0 +1,78 @@
+﻿@model List<ShopBanDoDienTu_Nhom1.Identity.AppUser>
+@{
+    ViewBag.Title = "List tài khoản";
+}
+
+<h2>Danh sách tài khoản</h2>
+<p>
+    <a class="btn btn-success" href="/admin/users/create">Thêm tài khoản</a>
+</p>
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <tr>
+            <th>
+                Id
+            </th>
+            <th>
+                Tài khoản
+            </th>
+            <th>
+                Vai trò
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Ngày sinh
+            </th>
+            <th>
+                Số điện thoại
+            </th>
+            <th>
+                Địa chỉ
+            </th>
+            <th>
+                Thành phố
+            </th>
+            <th></th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Roles)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Birthday)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.Raw(item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.ActionLink("Xóa", "Delete", new { id = item.Id, controller = "Users", area = "Admin" }, new { @class = "btn btn-danger" }) 
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id, controller = "Users", area = "Admin" }, new { @class = "btn btn-warning" })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

@@ -1,0 +1,34 @@
+﻿@model ShopBanDoDienTu_Nhom1.Models.Brand
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Xóa thương hiệu - Shop nhóm 1</h2>
+
+<h3>Bạn có chắc muốn xóa ?</h3>
+<div>
+    <hr class="bold-hr"/>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.BrandName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BrandName)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm("Delete", "Brands", new { area = "Admin" }, FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10 mt-3">
+                <input type="submit" value="Xóa" class="btn btn-danger" /> |
+                <a class="btn btn-info" href="/admin/brands">Hủy bỏ</a>
+            </div>
+        </div>
+    }
+</div>

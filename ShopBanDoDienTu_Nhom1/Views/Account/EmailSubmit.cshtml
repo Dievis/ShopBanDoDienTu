@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "EmailSubmit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Xác nhận email - Shop nhóm 1</h2>
+
+@using (Html.BeginForm("EmailSubmit", "Account", FormMethod.Post))
+{
+    <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Email address</label>
+        <input type="email" name="emailAddress" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+}
+@if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+{
+    <div class="alert alert-danger">@ViewBag.ErrorMessage</div>
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+{
+    <div class="alert alert-success">@ViewBag.SuccessMessage</div>
+}

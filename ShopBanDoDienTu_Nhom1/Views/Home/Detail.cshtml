@@ -1,0 +1,29 @@
+﻿@model ShopBanDoDienTu_Nhom1.Models.Product
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <h2 class="text-center">Chi tiết sản phẩm</h2>
+
+    <div class="card mx-auto" style="width: 18rem;">
+        <img src="@Url.Content(Model.Img)" class="card-img-top" alt="@Model.ProductName" style=" height: 200px; object-fit: cover">
+        <div class="card-body">
+            <h5 class="card-title">@Html.DisplayFor(model => model.ProductName)</h5>
+            <p class="card-text">Thương hiệu: @Html.DisplayFor(model => model.Brand.BrandName)</p>
+            <p class="card-text">Loại mặt hàng: @Html.DisplayFor(model => model.Category.CategoryName)</p>
+            <p class="card-text">Giá: @Html.DisplayFor(model => model.Price)</p>
+            <p class="card-text">Ngày nhập hàng: @Html.DisplayFor(model => model.DateOfPurchase)</p>
+            <p class="card-text">Tình trạng sẵn có: @Html.DisplayFor(model => model.AvailabilityStatus)</p>
+            <p class="card-text">Hoạt động: @Html.DisplayFor(model => model.Active)</p>
+        </div>
+        <p class="text-center">
+            @Html.ActionLink("Chỉnh sửa", "Edit", new { id = Model.ProductId }, new { @class = "btn btn-warning" }) |
+            @Html.ActionLink("Quay lại", "Index", null, new { @class = "btn btn-warning" })
+        </p>
+    </div>
+
+
+</div>

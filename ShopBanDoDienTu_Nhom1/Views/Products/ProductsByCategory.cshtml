@@ -1,0 +1,85 @@
+﻿@model List<ShopBanDoDienTu_Nhom1.Models.Product>
+
+@{
+    ViewBag.Title = "ProductsByCategory";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (!string.IsNullOrEmpty(ViewBag.Message))
+{
+    <div class="alert alert-warning" role="alert">
+        @ViewBag.Message
+    </div>
+}
+
+<main>
+    <div class="container">
+        @if (Model != null && Model.Any())
+        {
+            <h2 class="text-center">Các mặt hàng được lọc</h2> <br />
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-3 mb-4 product-card">
+                        <div class="card">
+                            <img src="@Url.Content(item.Img)" class="card-img-top" alt="@item.ProductName" style="height: 200px; object-fit: cover">
+                            <div class="card-body">
+                                <h5 class="card-title">@Html.ActionLink(Html.DisplayFor(row => item.ProductName).ToString(), "Detail", new { id = item.ProductId, controller = "Home" })</h5>
+                                <p class="card-text">Giá: @Html.DisplayFor(modelItem => item.Price)</p>
+                                <p class="card-text">Loại mặt hàng: @Html.DisplayFor(modelItem => item.Category.CategoryName)</p>
+                                <p class="card-text">Thương hiệu: @Html.DisplayFor(modelItem => item.Brand.BrandName)</p>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="pagination-container"></div>
+        }
+        else
+        {
+            <div class="text-center">
+                <p>Không có sản phẩm nào được tìm thấy cho category này.</p>
+                <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Quay lại trang chính</a>
+            </div>
+        }
+    </div>
+</main>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            var productsPerPage = 8;
+            var totalProducts = $(".product-card").length;
+            var totalPages = Math.ceil(totalProducts / productsPerPage);
+            showPage(1); // Hiển thị trang đầu tiên khi tải trang
+
+            $(".pagination-container").on("click", ".page-link", function () {
+                var page = parseInt($(this).text());
+                showPage(page);
+            });
+
+            function showPage(page) {
+                $("#productContainer .product-card").hide();
+                var startIndex = (page - 1) * productsPerPage;
+                var endIndex = Math.min(startIndex + productsPerPage, totalProducts);
+                $("#productContainer .product-card").slice(startIndex, endIndex).show();
+                generatePagination(page);
+            }
+
+            function generatePagination(currentPage) {
+                $(".pagination-container").empty(); // Xóa phân trang hiện tại
+
+                var pagination = '<ul class="pagination">';
+                for (var i = 1; i <= totalPages; i++) {
+                    if (i === currentPage) {
+                        pagination += '<li class="page-item active"><a class="page-link" href="#">' + i + '</a></li>';
+                    } else {
+                        pagination += '<li class="page-item"><a class="page-link" href="#">' + i + '</a></li>';
+                    }
+                }
+                pagination += '</ul>';
+                $(".pagination-container").html(pagination);
+            }
+        });
+    </script>
+}

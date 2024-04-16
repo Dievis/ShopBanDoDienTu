@@ -1,0 +1,70 @@
+﻿@model List<ShopBanDoDienTu_Nhom1.Models.Product>
+
+@{
+    ViewBag.Title = "Product Index";
+}
+
+<h2>Danh sách mặt hàng - Shop nhóm 1</h2>
+
+<form class="d-flex flex-row align-items-center flex-wrap" action="/manager/products/index">
+    <label for="search" class="mx-2 my-1">Search</label>
+    <input type="search"
+           class="form-control w-auto"
+           id="search"
+           name="search"
+           value="@ViewBag.Search"
+           placeholder="Search" />
+    <button type="submit" class="btn btn-info mx-3">GO</button>
+</form>
+
+<br>
+<p>
+    <a class="btn btn-success" href="/manager/products/create">Thêm mặt hàng</a>
+</p>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-3">
+            <div class="card mb-3">
+                <img src="@item.Img" class="card-img-top" alt="@item.ProductName" style=" height: 200px; object-fit: cover">
+                <hr />
+                <div class="card-body">
+                    <h5 class="card-title">@Html.ActionLink(Html.DisplayFor(row => item.ProductName).ToString(), "Detail", new { id = item.ProductId, controller = "Products" })</h5>
+                    <p class="card-text">Giá: @Html.DisplayFor(modelItem => item.Price)</p>
+                    <p class="card-text">Loại mặt hàng: @Html.DisplayFor(modelItem => item.Category.CategoryName)</p>
+                    <p class="card-text">Thương hiệu: @Html.DisplayFor(modelItem => item.Brand.BrandName)</p>
+                    <div class="text-center">
+                        @Html.ActionLink("Chỉnh sửa", "Edit", new { id = item.ProductId, controller = "Products", area = "Manager" }, new { @class = "btn btn-warning" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        @if (ViewBag.Page > 1)
+        {
+            @Html.ActionLink("<< Previous", "Index", new { page = ViewBag.Page - 1, search = ViewBag.Search, SortColumn = ViewBag.SortColumn, IconClass = ViewBag.IconClass, controller = "Products", area = "Manager" }, new { @class = "btn btn-primary" })
+        }
+
+        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+        {
+            if (i == ViewBag.Page)
+            {
+                <div class="btn btn-warning">@i</div>
+            }
+            else
+            {
+                @Html.ActionLink(i.ToString(), "Index", new { page = i, search = ViewBag.Search, SortColumn = ViewBag.SortColumn, IconClass = ViewBag.IconClass, controller = "Products", area = "Manager" }, new { @class = "btn btn-primary mx-1" })
+            }
+        }
+
+        @if (ViewBag.Page < ViewBag.TotalPages)
+        {
+            @Html.ActionLink("Next >>", "Index", new { page = ViewBag.Page + 1, search = ViewBag.Search, SortColumn = ViewBag.SortColumn, IconClass = ViewBag.IconClass, controller = "Products", area = "Manager" }, new { @class = "btn btn-primary" })
+        }
+    </div>
+</div>

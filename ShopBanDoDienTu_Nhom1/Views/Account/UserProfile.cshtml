@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "UserProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card" style="background-color: #333; color: #fff; padding: 20px; border-radius: 10px;">
+    <h2 style="margin-bottom: 20px;">Thông tin cá nhân</h2>
+
+    <ul style="list-style-type: none; padding: 0;">
+        <li><strong>Username:</strong> @Model.Username</li>
+        <li><strong>Phone Number:</strong> @Model.Mobile</li>
+        <li><strong>Email:</strong> @Model.Email</li>
+        <li><strong>Birthday:</strong> @Model.DateOfBirth</li>
+        <li><strong>Address:</strong> @Html.Raw(Model.Address)</li>
+        <li><strong>City:</strong> @Model.City</li>
+    </ul>
+
+    <p>@Html.ActionLink("Chỉnh sửa thông tin", "EditUserProfile", "Account", null, new { @class = "btn btn-outline-light" })</p>
+    <p>@Html.ActionLink("Đổi mật khẩu", "ChangePassword", "Account", null, new { @class = "btn btn-outline-light" })</p>
+    <p>
+        @Html.ActionLink("Xem lịch sử giao dịch", "OrderHistory", "Account", null, new { @class = "btn btn-outline-light" })
+    </p>
+
+</div>

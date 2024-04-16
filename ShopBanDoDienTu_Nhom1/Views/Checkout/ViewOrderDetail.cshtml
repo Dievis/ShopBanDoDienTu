@@ -1,0 +1,30 @@
+﻿@model ShopBanDoDienTu_Nhom1.Models.OrderDetail
+
+@{
+    ViewBag.Title = "Chi tiết hóa đơn";
+}
+
+<h2>Thanh toán thành công</h2>
+
+<div class="alert alert-success" role="alert">
+    Đơn hàng của bạn đã được đặt thành công. Cảm ơn bạn đã mua sắm tại cửa hàng của chúng tôi!
+</div>
+
+
+<div class="card" style="background-color: rgba(0,0,0,0.5); padding: 20px; color: white;">
+    <h2>Chi tiết hóa đơn</h2>
+
+    <div>
+        <p><strong>Mã hóa đơn:</strong> @Model.OrderId</p>
+        <p><strong>Mã mặt hàng:</strong> @Model.Product.ProductName</p>
+        <p><strong>Số lượng:</strong> @Model.Quantity</p>
+        <p><strong>Tiền:</strong> @Model.UnitPrice</p>
+    </div>
+
+    <div>
+        <a href="@Url.Action("Index", "Home")" class="btn btn-primary">Back to Home</a>
+        <!-- Button to export order to Excel -->
+        <a href="@Url.Action("ExportOrderToExcel", "Excel", new { orderDetailId = Model.OrderDetailId })" class="btn btn-success">In hóa đơn</a>
+    </div>
+</div>
+

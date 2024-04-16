@@ -1,0 +1,53 @@
+﻿@model List<ShopBanDoDienTu_Nhom1.Identity.AppUser>
+@{
+    ViewBag.Title = "Users";
+}
+
+<h2>Danh sách tài khoản - Shop nhóm 1</h2>
+<table class="table table-bordered">
+    <tr>
+        <th>
+            Tài khoản
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Ngày sinh
+        </th>
+        <th>
+            Số điện thoại
+        </th>
+        <th>
+            Địa chỉ
+        </th>
+        <th>
+            Thành phố
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Birthday)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
+            </td>
+            <td>
+                @Html.Raw(item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City)
+            </td>
+        </tr>
+    }
+
+</table>

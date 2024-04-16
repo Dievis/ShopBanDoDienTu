@@ -1,0 +1,158 @@
+﻿@model List<ShopBanDoDienTu_Nhom1.Models.Product>
+@{
+    ViewBag.Title = "Home Page";
+}
+@{
+    var brands = ViewBag.Brands as List<ShopBanDoDienTu_Nhom1.Models.Brand>;
+}
+<main>
+    <div class="row">
+        <div class="container">
+            <section class="welcome-text d-flex justify-content-center align-items-center flex-column mt-5">
+                <img src="~/Content/Images/lg.png" alt="Logo web"> <br>
+                <h4>Chào mừng đến với Shop Nhóm 1</h4>
+                <p>Trang web cung cấp các mặt hàng điện tử chất lượng cao đã được kiểm chứng</p>
+            </section>
+            <br />
+            <hr class="bold-hr">
+            <section>
+                <h2 class="text-center">Thương hiệu</h2> <br />
+                <div class="btn-group d-flex justify-content-center align-items-center">
+                    @if (brands != null)
+                    {
+                        foreach (var brand in brands)
+                        {
+                            <button type="button" class="btn btn-outline-light" style="margin-right: 10px; margin-bottom: 10px" onclick="location.href='@Url.Action("FilterByBrand", "Products", new { brandId = brand.BrandId })'">@brand.BrandName</button>
+                        }
+                    }
+                </div>
+            </section>
+            <br />
+            <hr class="bold-hr">
+            <section id="products">
+                <h2 class="text-center">Những sản phẩm</h2> <br />
+                <div id="productContainer" class="row">
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-md-3 mb-4">
+                            <div class="card">
+                                <img src="@item.Img" class="card-img-top" alt="@item.ProductName" style="height: 200px; object-fit: cover">
+                                <div class="card-body">
+                                    <h5 class="card-title">@Html.ActionLink(Html.DisplayFor(row => item.ProductName).ToString(), "Detail", new { id = item.ProductId, controller = "Home" })</h5>
+                                    <p class="card-text">Giá: @Html.DisplayFor(modelItem => item.Price)</p>
+                                    <p class="card-text">Loại mặt hàng: @Html.DisplayFor(modelItem => item.Category.CategoryName)</p>
+                                    <p class="card-text">Thương hiệu: @Html.DisplayFor(modelItem => item.Brand.BrandName)</p>
+                                    <form action="@Url.Action("AddToCart", "ShoppingCart")" method="post" class="add-to-cart-form">
+                                        <input type="hidden" name="id" value="@item.ProductId" />
+                                        <input type="submit" value="Thêm vào giỏ hàng" class="btn btn-success mt-2" />
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="pagination-container d-flex justify-content-center"></div>
+            </section>
+            <br />
+            <hr class="bold-hr">
+            <section id="about" class="d-flex justify-content-center align-items-center flex-column ">
+                <div class="card mb-3 card-1">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="~/Content/Images/lg.png" class="img-fluid rounded-start" alt="logo web">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">Về chúng tôi</h5>
+                                <p class="card-text">
+                                    Trang web bán hàng điện tử là một nền tảng trực tuyến cung cấp một loạt các sản phẩm điện tử đa dạng, từ điện thoại di động, máy tính bảng, laptop, đồng hồ
+                                    thông minh đến các thiết bị gia dụng thông minh và phụ kiện điện tử. Với sự tiện lợi của mua sắm trực tuyến, trang web này mang đến cho khách hàng một
+                                    trải nghiệm mua sắm thuận tiện và linh hoạt.
+                                </p>
+                                <p class="text-body-secondary">Nhóm 1</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            @*Contact*@
+            <section id="contact" class="d-flex justify-content-center align-items-center flex-column">
+                <div class="container container-bg">
+                    <h2>Địa Chỉ Cửa Hàng</h2>
+                    <ul style="background: rgba(0, 0, 0,0.3); width: 670px; color: #8b1521; border-radius:5px">
+                        <li><i class="bi bi-telephone"></i> Số điện thoại: 0349271003</li>
+                        <li><i class="bi bi-envelope"></i> Email: xincamon@gmail.com</li>
+                        <li><i class="bi bi-geo-alt"></i> Địa chỉ: Khu Công nghệ cao Xa Lộ Hà Nội, Hiệp Phú, Thủ Đức, Thành phố Hồ Chí Minh, Việt Nam</li>
+                    </ul>
+                    <div class="row">
+                        <div class="col-lg-7 col-md-6 px-0">
+                            <div class="map-responsive">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3918.4207676358487!2d106.78253487493387!3d10.855566889298073!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3175276e7ea103df%3A0xb6cf10bb7d719327!2zSFVURUNIIC0gxJDhuqFpIGjhu41jIEPDtG5nIG5naOG7hyBUUC5IQ00gKFRodSBEdWMgQ2FtcHVzKQ!5e0!3m2!1svi!2s!4v1712807394509!5m2!1svi!2s"
+                                        width="630" height="490" frameborder="0" style="border:0;" allowfullscreen></iframe>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-5 px-0">
+                            <form action="#" class="content-center">
+                                <h3>Liên hệ chúng tôi</h3>
+                                <div class="mb-3">
+                                    <label for="exampleInputEmail1" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                    <div id="emailHelp" class="form-text">Chúng tôi sẽ không chia sẻ email với bên thứ 3</div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Họ Tên</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="Name" class="form-label">Mô tả</label>
+                                    <textarea class="form-control" rows="4"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-warning">Gửi</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</main>
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            var currentPage = 1;
+            var productsPerPage = 4;
+            var totalProducts = $("#productContainer .card").length;
+            var totalPages = Math.ceil(totalProducts / productsPerPage);
+
+            showPage(currentPage);
+
+            $(".pagination-container").on("click", ".page-link", function () {
+                currentPage = parseInt($(this).text());
+                showPage(currentPage);
+            });
+
+            function showPage(page) {
+                $("#productContainer .card").hide();
+                var startIndex = (page - 1) * productsPerPage;
+                var endIndex = startIndex + productsPerPage;
+                $("#productContainer .card").slice(startIndex, endIndex).show();
+                generatePagination();
+            }
+
+            function generatePagination() {
+                var pagination = '<ul class="pagination">';
+                for (var i = 1; i <= totalPages; i++) {
+                    if (i === currentPage) {
+                        pagination += '<li class="page-item active"><a class="page-link" href="#">' + i + '</a></li>';
+                    } else {
+                        pagination += '<li class="page-item"><a class="page-link" href="#">' + i + '</a></li>';
+                    }
+                }
+                pagination += '</ul>';
+                $(".pagination-container").html(pagination);
+            }
+
+            generatePagination();
+        });
+    </script>
+}
